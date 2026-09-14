@@ -173,6 +173,28 @@ void RenderSettings::RestoreDefaultColorAliasIndex(const ColorAlias alias) noexc
     gsl::at(_colorAliasIndices, static_cast<size_t>(alias)) = gsl::at(_defaultColorAliasIndices, static_cast<size_t>(alias));
 }
 
+void RenderSettings::SetColorFilter(const ColorFilter filter) noexcept
+{
+    _colorFilter = filter;
+}
+
+RenderSettings::ColorFilter RenderSettings::GetColorFilter() const noexcept
+{
+    return _colorFilter;
+}
+
+COLORREF RenderSettings::_applyColorFilter(const COLORREF color) const noexcept
+{
+    switch (_colorFilter)
+    {
+    case ColorFilter::Invert:
+        return RGB(255 - GetRValue(color), 255 - GetGValue(color), 255 - GetBValue(color));
+    case ColorFilter::Off:
+    default:
+        return color;
+    }
+}
+
 // Routine Description:
 // - Calculates the RGB colors of a given text attribute, using the current
 //   color table configuration and active render settings.
@@ -221,6 +243,9 @@ std::pair<COLORREF, COLORREF> RenderSettings::GetAttributeColors(const TextAttri
             fg = ColorFix::GetPerceivableColor(fg, bg, 0.5f * 0.5f);
         }
     }
+
+    fg = _applyColorFilter(fg);
+    bg = _applyColorFilter(bg);
 
     return { fg, bg };
 }
@@ -286,7 +311,7 @@ COLORREF RenderSettings::GetAttributeUnderlineColor(const TextAttribute& attr) c
         }
     }
 
-    return ul;
+    return _applyColorFilter(ul);
 }
 
 void RenderSettings::ToggleBlinkRendition() noexcept

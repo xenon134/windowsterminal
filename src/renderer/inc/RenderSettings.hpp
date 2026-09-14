@@ -18,6 +18,12 @@ namespace Microsoft::Console::Render
     class RenderSettings
     {
     public:
+        enum class ColorFilter : uint8_t
+        {
+            Off,
+            Invert,
+        };
+
         enum class Mode : size_t
         {
             IndexedDistinguishableColors,
@@ -45,17 +51,22 @@ namespace Microsoft::Console::Render
         void SetColorAliasIndex(const ColorAlias alias, const size_t tableIndex) noexcept;
         size_t GetColorAliasIndex(const ColorAlias alias) const noexcept;
         void RestoreDefaultColorAliasIndex(const ColorAlias alias) noexcept;
+        void SetColorFilter(const ColorFilter filter) noexcept;
+        ColorFilter GetColorFilter() const noexcept;
         std::pair<COLORREF, COLORREF> GetAttributeColors(const TextAttribute& attr) const noexcept;
         std::pair<COLORREF, COLORREF> GetAttributeColorsWithAlpha(const TextAttribute& attr) const noexcept;
         COLORREF GetAttributeUnderlineColor(const TextAttribute& attr) const noexcept;
         void ToggleBlinkRendition() noexcept;
 
     private:
+        COLORREF _applyColorFilter(const COLORREF color) const noexcept;
+
         til::enumset<Mode> _renderMode{ Mode::IntenseIsBright };
         std::array<COLORREF, TextColor::TABLE_SIZE> _colorTable;
         std::array<size_t, static_cast<size_t>(ColorAlias::ENUM_COUNT)> _colorAliasIndices;
         std::array<COLORREF, TextColor::TABLE_SIZE> _defaultColorTable;
         std::array<size_t, static_cast<size_t>(ColorAlias::ENUM_COUNT)> _defaultColorAliasIndices;
         bool _blinkShouldBeFaint = false;
+        ColorFilter _colorFilter = ColorFilter::Off;
     };
 }

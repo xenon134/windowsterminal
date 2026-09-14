@@ -186,6 +186,17 @@ void Terminal::UpdateAppearance(const ICoreAppearance& appearance)
         break;
     }
 
+    switch (appearance.ColorFilter())
+    {
+    case ColorFilterMode::Invert:
+        renderSettings.SetColorFilter(RenderSettings::ColorFilter::Invert);
+        break;
+    case ColorFilterMode::Off:
+    default:
+        renderSettings.SetColorFilter(RenderSettings::ColorFilter::Off);
+        break;
+    }
+
     auto cursorShape = CursorType::VerticalBar;
     switch (appearance.CursorShape())
     {

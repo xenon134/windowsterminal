@@ -200,6 +200,7 @@ namespace SettingsModelUnitTests
 
                 "closeOnExit": "graceful",
                 "experimental.retroTerminalEffect": false,
+                "colorFilter": "invert",
                 "environment":
                 {
                     "KEY_1": "VALUE_1",
@@ -211,6 +212,12 @@ namespace SettingsModelUnitTests
         static constexpr std::string_view smallProfileString{ R"(
             {
                 "name": "Custom Profile"
+            })" };
+
+        static constexpr std::string_view colorFilterOffProfileString{ R"(
+            {
+                "name": "Off Filter Profile",
+                "colorFilter": "off"
             })" };
 
         // Setting "tabColor" to null tests two things:
@@ -250,6 +257,7 @@ namespace SettingsModelUnitTests
 
         RoundtripTest<implementation::Profile>(profileString);
         RoundtripTest<implementation::Profile>(smallProfileString);
+        RoundtripTest<implementation::Profile>(colorFilterOffProfileString);
         RoundtripTest<implementation::Profile>(weirdProfileString);
         RoundtripTest<implementation::Profile>(profileWithIcon);
         RoundtripTest<implementation::Profile>(profileWithNullIcon);

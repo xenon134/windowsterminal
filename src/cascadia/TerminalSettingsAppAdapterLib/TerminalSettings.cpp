@@ -273,6 +273,7 @@ namespace winrt::Microsoft::Terminal::Settings
         _IntenseIsBright = WI_IsFlagSet(appearance.IntenseTextStyle(), Microsoft::Terminal::Settings::Model::IntenseStyle::Bright);
 
         _AdjustIndistinguishableColors = appearance.AdjustIndistinguishableColors();
+        _ColorFilter = appearance.ColorFilter();
         _Opacity = appearance.Opacity();
         _UseAcrylic = appearance.UseAcrylic();
     }
