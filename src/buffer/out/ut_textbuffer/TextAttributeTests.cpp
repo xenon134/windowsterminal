@@ -25,6 +25,8 @@ class TextAttributeTests
     TEST_METHOD(TestReverseDefaultColors);
     TEST_METHOD(TestRoundtripDefaultColors);
     TEST_METHOD(TestIntenseAsBright);
+    TEST_METHOD(TestColorFilterDefaultsToOff);
+    TEST_METHOD(TestInvertColorFilterAppliesPostResolution);
 
     RenderSettings _renderSettings;
     const COLORREF _defaultFg = RGB(1, 2, 3);
@@ -324,4 +326,24 @@ void TextAttributeTests::TestIntenseAsBright()
 
     // Restore the default IntenseIsBright mode.
     _renderSettings.SetRenderMode(RenderSettings::Mode::IntenseIsBright, true);
+}
+
+void TextAttributeTests::TestColorFilterDefaultsToOff()
+{
+    TextAttribute attr{ RGB(25, 50, 75), RGB(100, 125, 150) };
+
+    VERIFY_ARE_EQUAL(std::make_pair(RGB(25, 50, 75), RGB(100, 125, 150)), _renderSettings.GetAttributeColors(attr));
+}
+
+void TextAttributeTests::TestInvertColorFilterAppliesPostResolution()
+{
+    TextAttribute attr{ RGB(10, 20, 30), RGB(40, 50, 60) };
+    attr.SetReverseVideo(true);
+
+    _renderSettings.SetColorFilter(RenderSettings::ColorFilter::Invert);
+    const auto [fg, bg] = _renderSettings.GetAttributeColors(attr);
+
+    VERIFY_ARE_EQUAL(RGB(215, 205, 195), fg);
+    VERIFY_ARE_EQUAL(RGB(245, 235, 225), bg);
+    _renderSettings.SetColorFilter(RenderSettings::ColorFilter::Off);
 }

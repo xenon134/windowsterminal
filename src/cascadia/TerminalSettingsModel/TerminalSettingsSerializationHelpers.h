@@ -61,6 +61,14 @@ JSON_ENUM_MAPPER(::winrt::Microsoft::Terminal::Core::AdjustTextMode)
     using EnumMapper::TypeDescription;
 };
 
+JSON_ENUM_MAPPER(::winrt::Microsoft::Terminal::Core::ColorFilterMode)
+{
+    static constexpr std::array<pair_type, 2> mappings = {
+        pair_type{ "off", ValueType::Off },
+        pair_type{ "invert", ValueType::Invert }
+    };
+};
+
 JSON_ENUM_MAPPER(::winrt::Windows::UI::Xaml::Media::Stretch)
 {
     static constexpr std::array<pair_type, 4> mappings = {
