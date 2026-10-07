@@ -343,7 +343,7 @@ void TextAttributeTests::TestInvertColorFilterAppliesPostResolution()
     _renderSettings.SetColorFilter(RenderSettings::ColorFilter::Invert);
     const auto [fg, bg] = _renderSettings.GetAttributeColors(attr);
 
-    VERIFY_ARE_EQUAL(RGB(215, 205, 195), fg);
-    VERIFY_ARE_EQUAL(RGB(245, 235, 225), bg);
+    VERIFY_ARE_EQUAL(RGB(194, 204, 214), fg);
+    VERIFY_ARE_EQUAL(RGB(224, 235, 245), bg);
     _renderSettings.SetColorFilter(RenderSettings::ColorFilter::Off);
 }

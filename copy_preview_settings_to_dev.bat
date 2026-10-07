@@ -1,0 +1,1 @@
+copy C:\Users\deep\AppData\Local\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json C:\Users\deep\AppData\Local\Packages\WindowsTerminalDev_8wekyb3d8bbwe\LocalState\settings.json
