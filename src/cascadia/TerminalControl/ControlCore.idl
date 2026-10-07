@@ -160,6 +160,7 @@ namespace Microsoft.Terminal.Control
 
         Microsoft.Terminal.Core.Color ForegroundColor { get; };
         Microsoft.Terminal.Core.Color BackgroundColor { get; };
+        Microsoft.Terminal.Core.Color FilteredBackgroundColor { get; };
 
         SelectionData SelectionInfo { get; };
         SelectionInteractionMode SelectionMode();

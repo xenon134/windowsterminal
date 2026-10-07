@@ -121,6 +121,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
 
         til::color ForegroundColor() const;
         til::color BackgroundColor() const;
+        til::color FilteredBackgroundColor() const;
 
         void SendInput(std::wstring_view wstr);
         void PasteText(const winrt::hstring& hstr);

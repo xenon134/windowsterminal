@@ -53,6 +53,7 @@ namespace Microsoft::Console::Render
         void RestoreDefaultColorAliasIndex(const ColorAlias alias) noexcept;
         void SetColorFilter(const ColorFilter filter) noexcept;
         ColorFilter GetColorFilter() const noexcept;
+        COLORREF ApplyColorFilter(const COLORREF color) const noexcept;
         std::pair<COLORREF, COLORREF> GetAttributeColors(const TextAttribute& attr) const noexcept;
         std::pair<COLORREF, COLORREF> GetAttributeColorsWithAlpha(const TextAttribute& attr) const noexcept;
         COLORREF GetAttributeUnderlineColor(const TextAttribute& attr) const noexcept;

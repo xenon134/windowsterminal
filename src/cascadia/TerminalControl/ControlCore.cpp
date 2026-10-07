@@ -1577,6 +1577,13 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         return _terminal->GetRenderSettings().GetColorAlias(ColorAlias::DefaultBackground);
     }
 
+    til::color ControlCore::FilteredBackgroundColor() const
+    {
+        const auto lock = _terminal->LockForReading();
+        const auto& rs = _terminal->GetRenderSettings();
+        return rs.ApplyColorFilter(rs.GetColorAlias(ColorAlias::DefaultBackground));
+    }
+
     // Method Description:
     // - Gets the internal taskbar state value
     // Return Value:

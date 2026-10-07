@@ -898,7 +898,10 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         _SetBackgroundImage(newAppearance);
 
         // Update our control settings
-        const auto bg = newAppearance.DefaultBackground();
+        // Apply the appearance to the core first so that the color filter is
+        // taken into account when we read the (filtered) background color below.
+        _core.ApplyAppearance(_focused);
+        const auto bg = _core.FilteredBackgroundColor();
 
         // In the future, this might need to be changed to a
         // _InitializeBackgroundBrush call instead, because we may need to
@@ -909,8 +912,6 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         Windows::UI::Xaml::Media::SolidColorBrush cursorColorBrush{ til::color{ newAppearance.CursorColor() } };
         SelectionStartMarker().Fill(cursorColorBrush);
         SelectionEndMarker().Fill(cursorColorBrush);
-
-        _core.ApplyAppearance(_focused);
     }
 
     // Method Description:
@@ -1077,7 +1078,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
     void TermControl::_InitializeBackgroundBrush()
     {
         auto settings{ _core.Settings() };
-        auto bgColor = til::color{ _core.FocusedAppearance().DefaultBackground() };
+        auto bgColor = til::color{ _core.FilteredBackgroundColor() };
 
         auto transparentBg = settings.UseBackgroundImageForWindow();
         if (transparentBg)
@@ -1144,7 +1145,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         co_await wil::resume_foreground(Dispatcher());
         if (auto control{ weakThis.get() })
         {
-            til::color newBgColor{ _core.BackgroundColor() };
+            til::color newBgColor{ _core.FilteredBackgroundColor() };
             _changeBackgroundColor(newBgColor);
         }
     }

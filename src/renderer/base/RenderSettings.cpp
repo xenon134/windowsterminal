@@ -7,6 +7,7 @@
 #include "../base/renderer.hpp"
 #include "../../types/inc/ColorFix.hpp"
 #include "../../types/inc/colorTable.hpp"
+#include "../../types/inc/utils.hpp"
 
 using namespace Microsoft::Console::Render;
 using Microsoft::Console::Utils::InitializeColorTable;
@@ -183,12 +184,20 @@ RenderSettings::ColorFilter RenderSettings::GetColorFilter() const noexcept
     return _colorFilter;
 }
 
+COLORREF RenderSettings::ApplyColorFilter(const COLORREF color) const noexcept
+{
+    return _applyColorFilter(color);
+}
+
 COLORREF RenderSettings::_applyColorFilter(const COLORREF color) const noexcept
 {
     switch (_colorFilter)
     {
     case ColorFilter::Invert:
-        return RGB(255 - GetRValue(color), 255 - GetGValue(color), 255 - GetBValue(color));
+    {
+        const auto [h, l, s] = Utils::ColorToHLS(til::color{ color });
+        return static_cast<COLORREF>(Utils::ColorFromHLS(h, 100 - l, s));
+    }
     case ColorFilter::Off:
     default:
         return color;
