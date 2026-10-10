@@ -8,4 +8,12 @@
     <Import Project="$(MSBuildCachePackageRoot)\build\$(MSBuildCachePackageName).targets" />
     <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\Microsoft.MSBuildCache.SharedCompilation.targets" />
   </ImportGroup>
+
+  <!-- Local build override (not for release): turn off /WX. The vcpkg GSL header
+       trips C4875 which /WX would promote to an error in this environment. -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+  </ItemDefinitionGroup>
 </Project>

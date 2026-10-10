@@ -117,6 +117,7 @@ namespace winrt::Microsoft::Terminal::Settings::Model::implementation
         INHERITABLE_SETTING(Model::TerminalSettings, bool, IntenseIsBright);
 
         INHERITABLE_SETTING(Model::TerminalSettings, Microsoft::Terminal::Core::AdjustTextMode, AdjustIndistinguishableColors, Core::AdjustTextMode::Never);
+        INHERITABLE_SETTING(Model::TerminalSettings, Microsoft::Terminal::Core::ColorFilterMode, ColorFilter, Core::ColorFilterMode::Off);
         INHERITABLE_SETTING(Model::TerminalSettings, bool, RainbowSuggestions, false);
 
         // ------------------------ End of Core Settings -----------------------
